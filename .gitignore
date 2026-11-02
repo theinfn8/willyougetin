@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+mlruns/
+mlflow.db
+model/saved_model/
+artifacts/*.onnx
+
+# Datasets are not published; see README for how to obtain/regenerate them.
+data/
+*.jsonl

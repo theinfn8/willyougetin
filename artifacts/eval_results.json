@@ -1,0 +1,58 @@
+{
+  "test_rows": 7853,
+  "majority_baseline": 0.5519,
+  "pytorch_fp32": {
+    "accuracy": 0.7912,
+    "precision": 0.8001,
+    "recall": 0.7118,
+    "f1": 0.7534,
+    "confusion_matrix_[acc,rej]x[pred_acc,pred_rej]": [
+      [
+        2505,
+        1014
+      ],
+      [
+        626,
+        3708
+      ]
+    ]
+  },
+  "onnx_fp32": {
+    "accuracy": 0.7912,
+    "precision": 0.8001,
+    "recall": 0.7118,
+    "f1": 0.7534,
+    "confusion_matrix_[acc,rej]x[pred_acc,pred_rej]": [
+      [
+        2505,
+        1014
+      ],
+      [
+        626,
+        3708
+      ]
+    ],
+    "size_mb": 267.9,
+    "agreement_with_pytorch": 1.0,
+    "mean_abs_prob_diff": 0.0
+  },
+  "onnx_int8": {
+    "accuracy": 0.7907,
+    "precision": 0.7994,
+    "recall": 0.7113,
+    "f1": 0.7528,
+    "confusion_matrix_[acc,rej]x[pred_acc,pred_rej]": [
+      [
+        2503,
+        1016
+      ],
+      [
+        628,
+        3706
+      ]
+    ],
+    "size_mb": 67.4,
+    "agreement_with_pytorch": 0.9771,
+    "mean_abs_prob_diff": 0.0196
+  }
+}
