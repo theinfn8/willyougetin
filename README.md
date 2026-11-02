@@ -192,4 +192,13 @@ This project brings together three assignments from Johns Hopkins EN.605.256
 (Module 11), a neural network built from scratch (Module 12), and fine-tuning
 and deploying a language model (Module 13).
 
+## License
+
+© 2026 Chris Carson. This project is licensed under the GNU General Public
+License v3.0. See [LICENSE](LICENSE) for details.
+
+The license covers this repository's code and documentation. It does not
+cover the GradCafe data (not included) or the pretrained
+`distilbert-base-uncased` model, which is under its own Apache 2.0 license.
+
 Chris Carson · [chaostek.dev](https://chaostek.dev/)
