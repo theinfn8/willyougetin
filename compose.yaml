@@ -1,0 +1,19 @@
+# Run with: docker compose up -d --build
+# Apache on the host proxies /willyougetin/ to 127.0.0.1:${WYGI_PORT}.
+services:
+  web:
+    build: .
+    image: willyougetin:latest
+    restart: unless-stopped
+    ports:
+      # Bound to localhost only: the public reaches it through Apache.
+      - "127.0.0.1:${WYGI_PORT:-8090}:8000"
+    volumes:
+      - ./service/model_files:/app/service/model_files:ro
+    environment:
+      ORT_THREADS: "1"
+    # Hard cap so the demo can never starve the other sites on the server.
+    mem_limit: 400m
+    read_only: true
+    tmpfs:
+      - /tmp

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will You Get In? &middot; Chaostek</title>
+  <meta name="description" content="A fine-tuned DistilBERT model that predicts graduate admission outcomes from self-reported GradCafe data. A portfolio demo, not admissions advice.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="https://chaostek.dev/">Chaostek</a>
+    <a class="back" href="https://chaostek.dev/data/data1.html">&larr; Project details</a>
+  </header>
+
+  <main>
+    <h1>Will You Get In?</h1>
+    <p class="lead">Describe a graduate school application and a fine-tuned
+      DistilBERT model will predict whether it was accepted or rejected.
+      It was trained on about 31,000 self-reported results from GradCafe,
+      and gets 79% of held-out results right.</p>
+
+    <aside class="notice" role="note">
+      <strong>This is a portfolio demo, not admissions advice.</strong>
+      The model only sees what people chose to post on GradCafe. It knows
+      nothing about essays, letters, research fit or how many places a
+      program has. It also leans heavily on degree type: about 31% of PhD
+      results in the test data were acceptances, but the model predicts
+      only 19% of them as accepted (for Master&rsquo;s results: 76% actual,
+      85% predicted). Please don&rsquo;t base any real decision on it.
+    </aside>
+
+    {% if errors.form %}
+    <p class="form-error" role="alert">{{ errors.form }}</p>
+    {% endif %}
+
+    {% if prediction %}
+    <section class="result {{ 'accepted' if prediction.label == 'Accepted' else 'rejected' }}" aria-live="polite">
+      <h2>Prediction: {{ prediction.label }}</h2>
+      <p class="score">
+        <meter min="0" max="1" low="0.5" optimum="1" value="{{ '%.3f'|format(prediction.p_accepted) }}">{{ '%.0f'|format(prediction.p_accepted * 100) }}%</meter>
+        <span>{{ '%.0f'|format(prediction.p_accepted * 100) }}% chance of &ldquo;Accepted&rdquo;</span>
+      </p>
+      <p class="muted">This is the model&rsquo;s score, not a real probability
+        of admission. Above 50% is predicted Accepted.</p>
+      <details>
+        <summary>What the model read</summary>
+        <pre>{{ prediction.input_text }}</pre>
+        <p class="muted">Missing fields are written as &ldquo;Not
+          reported&rdquo;, and outcome words in comments (accepted, rejected,
+          waitlisted&hellip;) are replaced with [redacted], the same as in
+          training.</p>
+      </details>
+    </section>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('index') }}" class="predict-form" novalidate>
+      <div class="field wide">
+        <label for="program">Program</label>
+        <input type="text" id="program" name="program" maxlength="120"
+               placeholder="e.g. Computer Science" value="{{ values.program }}"
+               {% if errors.program %}aria-invalid="true" aria-describedby="program-error"{% endif %}>
+        <span class="field-error" id="program-error">{{ errors.program }}</span>
+      </div>
+
+      <div class="field wide">
+        <label for="university">University</label>
+        <input type="text" id="university" name="university" maxlength="120"
+               placeholder="e.g. Johns Hopkins University" value="{{ values.university }}"
+               {% if errors.university %}aria-invalid="true" aria-describedby="university-error"{% endif %}>
+        <span class="field-error" id="university-error">{{ errors.university }}</span>
+      </div>
+
+      <div class="field">
+        <label for="degree">Degree</label>
+        <select id="degree" name="degree">
+          {% for degree in degrees %}
+          <option value="{{ degree }}" {% if values.degree == degree %}selected{% endif %}>{{ degree }}</option>
+          {% endfor %}
+        </select>
+        <span class="field-error" id="degree-error">{{ errors.degree }}</span>
+      </div>
+
+      <div class="field">
+        <label for="citizenship">Citizenship</label>
+        <select id="citizenship" name="citizenship">
+          {% for option in citizenships %}
+          <option value="{{ option }}" {% if values.citizenship == option %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+        <span class="field-error" id="citizenship-error">{{ errors.citizenship }}</span>
+      </div>
+
+      {% for name, (label, low, high) in numeric.items() %}
+      <div class="field">
+        <label for="{{ name }}">{{ label }} <span class="muted">({{ '%g'|format(low) }}&ndash;{{ '%g'|format(high) }}, optional)</span></label>
+        <input type="text" inputmode="decimal" id="{{ name }}" name="{{ name }}"
+               data-min="{{ low }}" data-max="{{ high }}" data-label="{{ label }}"
+               value="{{ values[name] }}" placeholder="Not reported"
+               {% if errors[name] %}aria-invalid="true" aria-describedby="{{ name }}-error"{% endif %}>
+        <span class="field-error" id="{{ name }}-error">{{ errors[name] }}</span>
+      </div>
+      {% endfor %}
+
+      <div class="field wide">
+        <label for="comments">Comments <span class="muted">(optional, as you might post on GradCafe)</span></label>
+        <textarea id="comments" name="comments" rows="4" maxlength="1000"
+                  placeholder="e.g. Two years of research experience, one publication."
+                  {% if errors.comments %}aria-invalid="true" aria-describedby="comments-error"{% endif %}>{{ values.comments }}</textarea>
+        <span class="field-error" id="comments-error">{{ errors.comments }}</span>
+      </div>
+
+      <p class="form-error wide" id="form-error" role="alert"></p>
+      <div class="wide"><button type="submit">Predict</button></div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>Chris Carson &middot; <a href="https://github.com/theinfn8/willyougetin">Source on GitHub</a></p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='predict.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+/* "Will You Get In?" demo. Colours match chaostek.dev (dark theme). */
+
+:root {
+  --bg: #0f1216;
+  --bg-elevated: #161b22;
+  --bg-card: #1b2129;
+  --border: #2a313c;
+  --text: #d7dde5;
+  --text-muted: #8b95a3;
+  --heading: #f0f3f6;
+  --accent: #4fa3d1;
+  --accent-2: #3ec9a7;
+  --error: #f08a7e;
+  --rejected: #e0a458;
+  --radius: 8px;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-2); }
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--heading);
+  text-decoration: none;
+}
+
+.back { text-decoration: none; font-size: 0.95rem; }
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+h1, h2 { color: var(--heading); line-height: 1.25; }
+h1 { margin: 0 0 0.75rem; font-size: 2rem; }
+h2 { margin: 0 0 0.75rem; font-size: 1.35rem; }
+
+.lead { font-size: 1.05rem; margin: 0 0 1.25rem; }
+.muted { color: var(--text-muted); font-size: 0.9rem; font-weight: 400; }
+
+.notice {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--rejected);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  font-size: 0.95rem;
+}
+
+.result {
+  margin: 0 0 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent-2);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+}
+.result.rejected { border-left-color: var(--rejected); }
+.result .muted { margin: 0.5rem 0 0; }
+
+.score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 1.05rem;
+}
+meter { width: min(240px, 100%); height: 1rem; }
+
+details { margin-top: 1rem; }
+summary { cursor: pointer; color: var(--accent); }
+pre {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.predict-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 1rem;
+}
+.field { display: flex; flex-direction: column; min-width: 0; }
+.wide { grid-column: 1 / -1; }
+
+label { color: var(--heading); font-weight: 600; margin-bottom: 0.3rem; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+input::placeholder, textarea::placeholder { color: var(--text-muted); }
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+[aria-invalid="true"] { border-color: var(--error); }
+
+.field-error, .form-error {
+  min-height: 1.4rem;
+  margin: 0.2rem 0 0.4rem;
+  color: var(--error);
+  font-size: 0.875rem;
+}
+.form-error:empty { min-height: 0; margin: 0; }
+
+button {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:hover { background: var(--accent-2); }
+button:disabled { opacity: 0.6; cursor: wait; }
+
+.site-footer {
+  padding: 1.25rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+.site-footer p { margin: 0; }
+
+@media (max-width: 600px) {
+  .predict-form { grid-template-columns: minmax(0, 1fr); }
+  h1 { font-size: 1.6rem; }
+}

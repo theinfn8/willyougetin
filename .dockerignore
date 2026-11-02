@@ -1,0 +1,11 @@
+.venv/
+.git/
+data/
+model/
+artifacts/
+mlruns/
+mlflow.db
+baseline/
+service/model_files/
+**/__pycache__/
+tests/

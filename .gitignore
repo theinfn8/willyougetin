@@ -9,3 +9,6 @@ artifacts/*.onnx
 # Datasets are not published; see README for how to obtain/regenerate them.
 data/
 *.jsonl
+
+# Packaged model for the service (see scripts/package_model.sh)
+service/model_files/
