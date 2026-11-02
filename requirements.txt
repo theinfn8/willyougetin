@@ -1,0 +1,20 @@
+# Training, evaluation and tests. The web service has its own, much smaller
+# list in service/requirements.txt.
+#
+# PyTorch: this pulls the default build from PyPI. For a CPU-only install
+# (smaller, fine for evaluation), install it first with
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+# For an AMD GPU, use the ROCm wheel index that matches your card instead.
+torch==2.15.0
+transformers==5.22.1
+pandas==3.1.0
+scikit-learn==1.9.1
+numpy==2.5.4
+matplotlib==3.11.2
+mlflow==3.17.2
+onnx==1.23.2
+onnxscript==0.7.2
+onnxruntime==1.31.1
+tokenizers==0.23.3
+flask==3.1.3
+pytest==9.2.0
